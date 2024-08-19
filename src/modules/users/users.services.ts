@@ -1,7 +1,5 @@
-import { SignJwt } from "../../lib/tokens";
 import bcrypt from "bcrypt"
 import { Accounts } from "../accounts/accounts.modal";
-import { AccountServices } from "../accounts/accounts.services";
 import { StudentPreferences } from "../preferences/student.preferences.modal";
 import { StudentProfiles } from "../profiles/student.profiles.modal";
 import { IUser, Users } from "./users.modal";
@@ -27,8 +25,7 @@ export default class UserServices {
             hashedPassword = await bcrypt.hash(password, 10);
         }
 
-        const user = new Users({ email, role, imageUrl });
-        await user.save();
+        const user = await Users.create({ email, role, imageUrl });
 
         await Accounts.create({
             user: user._id,

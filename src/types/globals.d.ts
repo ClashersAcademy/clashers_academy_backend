@@ -3,7 +3,7 @@ import { Request } from "express";
 export interface JWTPayload {
     id: string;
     email: string;
-    role: string;
+    role: "student" | "mentors" | "institute";
     imageUrl?: string;
 }
 
@@ -12,7 +12,7 @@ declare module "express" {
         user?: {
             id: string;
             email: string;
-            role: string;
+            role: "student" | "mentors" | "institute";
             imageUrl?: string;
         };
     }

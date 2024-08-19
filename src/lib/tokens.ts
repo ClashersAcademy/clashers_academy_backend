@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken"
 import APIError from "../errors/APIError";
+import { USER_ERROR } from "../errors/userErrors";
 
 export const Token = process.env.JWT_TOKEN as string;
 
@@ -20,11 +21,7 @@ export async function VerifyJWT(token: string, secret = Token) {
         return payload
     } catch (error: any) {
         if (error.name === "JwtTokenExpired") {
-            throw new APIError({
-                STATUS: 401,
-                TITLE: "JWT Token Expired",
-                MESSAGE: "jwt token expired"
-            })
+            throw new APIError(USER_ERROR.SESSION_INVALIDATED)
         }
     }
 }

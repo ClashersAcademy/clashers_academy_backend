@@ -1,6 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
 import { StudentProfiles } from '../profiles/student.profiles.modal';
 import { StudentPreferences } from '../preferences/student.preferences.modal';
+import { MentorProfiles } from '../profiles/mentors.profiles.modal';
+import { MentorPreferences } from '../preferences/mentor.preferences.modal';
+import { InstituteProfiles } from '../profiles/institute.profile.modal';
+import { InstitutePreferences } from '../preferences/institute.preference.modal';
 
 export interface IUser extends Document {
     email: string;
@@ -40,22 +44,30 @@ const userSchema = new Schema<IUser>({
     timestamps: true
 });
 
-userSchema.post('save', async function (doc) {
+userSchema.pre('save', async function (next) {
     try {
-        const role = doc.role
+        if (this.isNew) {
+            const role = this.role
 
-        switch (role) {
-            case "student":
-                await StudentProfiles.create({ user: doc._id });
-                await StudentPreferences.create({ user: doc._id });
-                break;
-            case "mentors":
-                break;
-            case "institute":
-                break;
-            default:
-                break;
+            switch (role) {
+                case "student":
+                    await StudentProfiles.create({ user: this._id });
+                    await StudentPreferences.create({ user: this._id });
+                    break;
+                case "mentors":
+                    await MentorProfiles.create({ user: this._id });
+                    await MentorPreferences.create({ user: this._id });
+                    break;
+                case "institute":
+                    await InstituteProfiles.create({ user: this._id });
+                    await InstitutePreferences.create({ user: this._id });
+                    break;
+                default:
+                    break;
+            }
         }
+
+        next()
     } catch (error) {
         throw error
     }

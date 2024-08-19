@@ -19,10 +19,7 @@ async function UserDeserializer(req: Request, res: Response, next: NextFunction)
             const userToken = await SignJwt({
                 ...payload,
             }, { expiresIn: "5m" });
-            res.cookie("access_token", userToken, {
-                maxAge: 300000, // 5 minutes
-                httpOnly: true,
-            })
+            res.cookie("access_token", userToken, cookieConfig({}))
         } catch (error) {
             throw error;
         }

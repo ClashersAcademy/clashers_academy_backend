@@ -73,7 +73,7 @@ export default class AuthenticationController {
                 return res.status(401).json({ message: 'Invalid credentials.' });
             }
 
-            const token = await SignJwt({ id: user.id, email: user.email, role: user.role, imageUrl: user.imageUrl }, { expiresIn: "5m" });
+            const token = await SignJwt({ id: user.id, email: user.email, role: user.role, imageUrl: user.imageUrl, collection: "users" }, { expiresIn: "5m" });
 
             res.cookie("access_token", token, cookieConfig({}));
 
@@ -151,7 +151,7 @@ export default class AuthenticationController {
 
 
 
-            const token = await SignJwt({ id: user.id, email: user.email, imageUrl: user.imageUrl, role: user.role }, { expiresIn: "5m" });
+            const token = await SignJwt({ id: user.id, email: user.email, imageUrl: user.imageUrl, role: user.role, collection: "users" }, { expiresIn: "5m" });
 
             res.cookie("access_token", token, cookieConfig({}))
 
@@ -194,7 +194,7 @@ export default class AuthenticationController {
                 }
             }
 
-            const token = await SignJwt({ id: user.id, email: user.email, imageUrl: user.imageUrl });
+            const token = await SignJwt({ id: user.id, email: user.email, imageUrl: user.imageUrl, role: user.role, collection: "users" });
 
             res.cookie("access_token", token, { httpOnly: true });
             return res.status(200).json({ message: "Discord OAuth Login Successful", token });

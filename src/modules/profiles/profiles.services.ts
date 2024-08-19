@@ -1,9 +1,27 @@
+import APIError from "../../errors/APIError";
 import { Users } from "../users/users.modal";
 import { InstituteProfiles } from "./institute.profile.modal";
 import { MentorProfiles } from "./mentors.profiles.modal";
 import { StudentProfiles } from "./student.profiles.modal";
 
 export class ProfileServices {
+
+    private static roleAllowedFields = {
+        student: ['name', 'age', 'class', 'school'],
+        mentors: ['name', 'subject', 'experience', 'qualification'],
+        institute: ['name', 'address', 'contactNumber', 'courses'],
+    };
+
+    /**
+   * Verifies that the payload only contains allowed fields based on the user's role.
+   * @param payload - The update payload.
+   * @param role - The role of the user (student, mentor, institute).
+   */
+    private static payloadVerifier(payload: any, role: "student" | "mentors" | "institute"): boolean {
+        const allowedFields = ProfileServices.roleAllowedFields[role] || [];
+        return Object.keys(payload).every(field => allowedFields.includes(field));
+    }
+
     /**
      * Finds an account by user ID and provider.
      * @param userId - The ID of the user.
@@ -42,8 +60,16 @@ export class ProfileServices {
      * @param updates - The fields to update in the profile.
      * @returns The updated profile.
     */
-    static async updateProfileById(userId: string, updates: Partial<{ username: string; bio: string; school: string }>, role: "student" | "mentors" | "institute") {
+    static async updateProfileById(userId: string, updates: Record<string, any>, role: "student" | "mentors" | "institute") {
         try {
+            if (!ProfileServices.payloadVerifier(updates, role)) {
+                throw new APIError({
+                    MESSAGE: `Invalid fields in payload for role ${role}`,
+                    TITLE: "INVALID PAYLOAD",
+                    STATUS: 400
+                });
+            }
+
             const profile = await this.findProfileByUserId(userId, role)
             if (!profile || profile.isDeleted) {
                 throw new Error('Profile not found');
