@@ -114,33 +114,4 @@ export class AuthenticationServices {
             throw error;
         }
     }
-
-    /**
-    * Handles OAuth login using providers like Google, Facebook, etc.
-    * @param provider - The OAuth provider (e.g., 'google', 'facebook').
-    * @param providerId - The provider-specific ID.
-    * @param email - The user's email address.
-    * @returns A success message and JWT token.
-    */
-    // static async handleOAuthLogin(provider: "google" | "facebook" | "discord" | "local", providerId: string, email: string) {
-    //     if (!provider || !providerId || !email) {
-    //         throw new Error('Provider, providerId, and email are required.');
-    //     }
-
-    //     let user = await UserServices.getUserByEmail(email);
-
-    //     if (!user) {
-    //         user = await UserServices.registerUser(email, null, provider, providerId);
-    //     } else {
-    //         const account = await AccountServices.findAccountByUserIdAndProvider(user.id, provider);
-    //         if (!account) {
-    //             await AccountServices.createAccount(user.id, provider, providerId);
-    //         }
-    //     }
-
-    //     const token = await SignJwt({ id: user.id, email: user.email, provider }, { expiresIn: "5m" });
-
-    //     return { message: "OAuth Login Successful", token };
-    // }
-
 }

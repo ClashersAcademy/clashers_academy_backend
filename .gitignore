@@ -5,3 +5,4 @@ static/
 assets/
 logs/
 mongodb_data_container/
+redis_data/

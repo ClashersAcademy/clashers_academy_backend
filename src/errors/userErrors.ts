@@ -4,6 +4,11 @@ export const USER_ERROR = {
         TITLE: "AUTHORIZATION_ERROR",
         MESSAGE: "The user is not authorized to perform this action.",
     },
+    ACCESS_DENIED_SIMULTANEOUS_LOGIN: {
+        STATUS: 403,
+        TITLE: "ACCESS_DENIED",
+        MESSAGE: "Simultaneous logins from different clients are not allowed.",
+    },
     USER_NOT_FOUND_ERROR: {
         STATUS: 404,
         TITLE: "USER_NOT_FOUND",
@@ -24,6 +29,16 @@ export const USER_ERROR = {
         STATUS: 401,
         TITLE: "INVALID_CREDENTIALS",
         MESSAGE: "Invalid email or password. Please try again.",
+    },
+    VERIFICATION_MISSING: {
+        STATUS: 401,
+        TITLE: "VERIFICATION_MISSING",
+        MESSAGE: 'Verify Your Email',
+    },
+    CREDENTIALS_MISSING: {
+        STATUS: 401,
+        TITLE: "CREDENTIALS_MISSING",
+        MESSAGE: 'Email and password are required.',
     },
     WRONG_PASSWORD: {
         STATUS: 401,

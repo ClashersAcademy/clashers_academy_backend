@@ -64,25 +64,6 @@ export default class UserServices {
     }
 
     /**
-     * Updates user details.
-     * @param userId - The ID of the user to update.
-     * @param updates - The fields to update.
-     * @returns The updated user.
-    */
-    static async updateUser(userId: string, updates: Partial<{ email: string; isVerified: boolean }>): Promise<IUser> {
-        const user = await Users.findById(userId).exec();
-        if (!user || user.isDeleted) {
-            throw new Error('User not found');
-        }
-
-        // Update user details
-        Object.assign(user, updates);
-        await user.save();
-
-        return user;
-    }
-
-    /**
      * Verifies the user's account status based on the `isVerified` field.
      * @param userId - The user's ID.
      * @returns The updated user object after verification.

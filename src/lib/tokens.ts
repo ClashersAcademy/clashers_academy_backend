@@ -4,7 +4,7 @@ import { USER_ERROR } from "../errors/userErrors";
 
 export const Token = process.env.JWT_TOKEN as string;
 
-export async function SignJwt(payload: JwtPayload, options?: jwt.SignOptions, secret = Token) {
+export function SignJwt(payload: JwtPayload, options?: jwt.SignOptions, secret = Token) {
     try {
         return jwt.sign(payload, secret, options);
     } catch (error) {
@@ -12,7 +12,7 @@ export async function SignJwt(payload: JwtPayload, options?: jwt.SignOptions, se
     }
 }
 
-export async function VerifyJWT(token: string, secret = Token) {
+export function VerifyJWT(token: string, secret = Token) {
     try {
         const payload = jwt.verify(token, secret) as JwtPayload;
 

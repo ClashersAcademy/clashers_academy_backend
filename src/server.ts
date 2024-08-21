@@ -1,7 +1,7 @@
 import { config } from "dotenv"
 import express from "express"
 import connectDB from "./configs/DB"
-import { logger } from "./configs/logger"
+import { errorlogger, logger } from "./configs/logger"
 import serverConfig from "./serverConfig"
 config()
 
@@ -15,7 +15,7 @@ connectDB()
         logger.info("Running Status", "Database connected");
     })
     .catch((err) => {
-        console.log("Database Connection Failed", err);
+        errorlogger.error("Database Connection Failed", err);
         process.exit();
     });
 
